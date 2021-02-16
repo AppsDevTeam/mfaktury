@@ -65,7 +65,7 @@ class MFaktury
 			'zip' => $invoice->getCustomer()->getPostalCode(),
 			'country' => $invoice->getCustomer()->getCountry(),
 			'ic' => $invoice->getCustomer()->getCompanyID(),
-			'vatId' => $invoice->getCustomer()->getVatID(),
+			'dic' => $invoice->getCustomer()->getVatID(),
 			'comp_email' => $invoice->getCustomer()->getEmail(),
 		];
 

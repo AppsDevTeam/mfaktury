@@ -25,7 +25,7 @@ class Invoice
 	const DUE_IN_DAYS_ALREADY_PAID = -1;
 	const DUE_IN_DAYS_IMMEDIATELY = 0;
 
-	protected ?Customer $customer;
+	protected Customer $customer;
 	protected string $paymentMethod;
 	protected int $type;
 	protected bool $emailToCustomerEnabled;
@@ -36,18 +36,19 @@ class Invoice
 	protected ?string $vs;
 	/** @var InvoiceItem[] $items */
 	protected array $items;
+	protected ?string $link;
 
 	public function __construct(
 		array $items,
-		?Customer $customer = null,
+		Customer $customer,
 		int $dueInDays = self::DUE_IN_DAYS_ALREADY_PAID,
 		int $paymentMethod = self::PAYMENT_METHOD_TRANSFER,
 		int $type = self::TYPE_INVOICE,
 		string $lang = self::LANG_CS,
 		string $currency = self::CURRENCY_CZK,
 		bool $emailToCustomerEnabled = false,
-		?string $note = null,
-		?string $vs = null
+		string $note = null,
+		string $vs = null
 	)
 	{
 		$this->items = $items;
@@ -63,18 +64,18 @@ class Invoice
 	}
 
 	/**
-	 * @return ?Customer
+	 * @return Customer
 	 */
-	public function getCustomer(): ?Customer
+	public function getCustomer(): Customer
 	{
 		return $this->customer;
 	}
 
 	/**
-	 * @param ?Customer $customer
+	 * @param Customer $customer
 	 * @return Invoice
 	 */
-	public function setCustomer(?Customer $customer): Invoice
+	public function setCustomer(Customer $customer): Invoice
 	{
 		$this->customer = $customer;
 		return $this;

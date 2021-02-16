@@ -38,12 +38,8 @@ class MFaktury
 				'content' => http_build_query($data),
 			],
 		];
-		$context  = stream_context_create($options);
-		$response = file_get_contents($url, false, $context);
-		if ($response == FALSE) {
-			echo "FALSE";
-		}
-		return $response;
+
+		return json_decode(file_get_contents($url, false, stream_context_create($options)));
 	}
 
 	public function listContact()
@@ -54,11 +50,11 @@ class MFaktury
 	/**
 	 * @param Invoice $invoice
 	 *
-	 * @return string
+	 * @return object
 	 * @throws InvoiceNotCreatedException
 	 * @throws \ADT\Mfaktury\Entity\UnrecognizedPaymentMethodType
 	 */
-	public function createInvoice(Invoice $invoice): string
+	public function createInvoice(Invoice $invoice): object
 	{
 		$customerData = [
 			'api_token' => $this->apiToken,
@@ -105,7 +101,17 @@ class MFaktury
 			throw new InvoiceNotCreatedException("\nDECODED:\n" . print_r($response, true) . "\n");
 		}
 
-		return $response->link;
+		return $response;
+	}
+
+	public function getInvoice(int $invoiceID)
+	{
+		$data = [
+			'api_token' => $this->apiToken,
+			'id' => $invoiceID
+		];
+
+		return $this->request($data, $this->invoiceUrl);
 	}
 }
 

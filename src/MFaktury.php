@@ -89,6 +89,7 @@ class MFaktury
 			'lang' => $invoice->getLang(),
 			'payment_method' => $invoice->getPaymentMethod(),
 			'interval_exp' => $invoice->getDueInDays(),
+			'issue_invoice' => $invoice->getIssueInvoice(),
 			'vs' => $invoice->getVs(),
 			'currency' => $invoice->getCurrency(),
 			'internal_note' => $invoice->getNote(),

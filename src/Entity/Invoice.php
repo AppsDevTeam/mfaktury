@@ -37,6 +37,7 @@ class Invoice
 	/** @var InvoiceItem[] $items */
 	protected array $items;
 	protected ?string $link;
+	protected bool $issueInvoice = true;
 
 	public function __construct(
 		array $items,
@@ -255,6 +256,17 @@ class Invoice
 	public function setItems(array $items): Invoice
 	{
 		$this->items = $items;
+		return $this;
+	}
+
+	public function getIssueInvoice(): bool
+	{
+		return $this->issueInvoice;
+	}
+
+	public function setIssueInvoice(int $bool): Invoice
+	{
+		$this->issueInvoice = $bool;
 		return $this;
 	}
 

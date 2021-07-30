@@ -264,7 +264,7 @@ class Invoice
 		return $this->issueInvoice;
 	}
 
-	public function setIssueInvoice(int $bool): Invoice
+	public function setIssueInvoice(bool $bool): Invoice
 	{
 		$this->issueInvoice = $bool;
 		return $this;

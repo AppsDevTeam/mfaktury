@@ -6,8 +6,8 @@ namespace ADT\MFaktury\Entity;
 class Invoice
 {
 
-	const PAYMENT_METHOD_CASH = 0;
-	const PAYMENT_METHOD_TRANSFER = 1;
+	const PAYMENT_METHOD_CASH = 'hotovost';
+	const PAYMENT_METHOD_TRANSFER = 'převod';
 	const PAYMENT_METHOD_PAYMENT_CARD = 'platba kartou';
 	const PAYMENT_METHOD_CASH_ON_DELIVERY = 'dobírka';
 	const PAYMENT_METHOD_ONLINE = 'on-line platební brána';
@@ -43,7 +43,7 @@ class Invoice
 		array $items,
 		Customer $customer,
 		int $dueInDays = self::DUE_IN_DAYS_ALREADY_PAID,
-		int $paymentMethod = self::PAYMENT_METHOD_TRANSFER,
+		string $paymentMethod = self::PAYMENT_METHOD_TRANSFER,
 		int $type = self::TYPE_INVOICE,
 		string $lang = self::LANG_CS,
 		string $currency = self::CURRENCY_CZK,

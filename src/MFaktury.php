@@ -9,7 +9,7 @@ class MFaktury
 {
 
 	protected string $apiToken;
-	protected ?string $queueId;
+	protected ?int $queueId;
 	protected string $contactUrl = 'https://ac.mfaktury.cz/api/contacts';
 	protected string $contactListUrl = 'https://ac.mfaktury.cz/api/contactslist';
 	protected string $invoiceUrl = 'https://ac.mfaktury.cz/api/invoices';
@@ -58,7 +58,6 @@ class MFaktury
 	{
 		$customerData = [
 			'api_token' => $this->apiToken,
-			'queue_id' => $this->queueId,
 			'auto_generate' => 0,
 			'company' => $invoice->getCustomer()->getName(),
 			'street' => $invoice->getCustomer()->getAddress(),
@@ -84,6 +83,7 @@ class MFaktury
 
 		$invoiceData = [
 			'api_token' => $this->apiToken,
+			'queue_id' => $this->queueId,
 			'type' => $invoice->getType(),
 			'contact' => $customerID,
 			'sendEmail' => $invoice->isEmailToCustomerEnabled(),

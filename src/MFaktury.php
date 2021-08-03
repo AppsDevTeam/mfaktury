@@ -58,6 +58,7 @@ class MFaktury
 	{
 		$customerData = [
 			'api_token' => $this->apiToken,
+			'queue_id' => $this->queueId,
 			'auto_generate' => 0,
 			'company' => $invoice->getCustomer()->getName(),
 			'street' => $invoice->getCustomer()->getAddress(),

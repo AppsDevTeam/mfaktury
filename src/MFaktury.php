@@ -50,9 +50,9 @@ class MFaktury
 	/**
 	 * Vytvorí faktúru z proformy podľa ID
 	 */
-	public function createInvoiceFromProform(int $proformId)
+	public function createInvoiceFromProform(int $proformId): object
 	{
-		$this->request(
+		return $this->request(
 			[
 				'id' => $proformId,
 				'issue_invoice' => true,

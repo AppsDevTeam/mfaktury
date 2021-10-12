@@ -29,13 +29,13 @@ class MFaktury
 		$this->cashRegister = $cashRegister;
 	}
 
-	protected function request(array $data, string $url)
+	protected function request(string $url, array $data = [])
 	{
 		$options = [
 			'http' => [
 				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 				'method'  => 'POST',
-				'content' => http_build_query($data),
+				'content' => http_build_query(array_merge($data, ['api_token' => $this->apiToken])),
 			],
 		];
 
@@ -44,7 +44,7 @@ class MFaktury
 
 	public function listContact()
 	{
-		return $this->request(['api_token' => $this->apiToken], $this->contactListUrl);
+		return $this->request($this->contactListUrl);
 	}
 
 	/**
@@ -53,11 +53,11 @@ class MFaktury
 	public function createInvoiceFromProform(int $proformId): object
 	{
 		return $this->request(
+			$this->invoiceUrl,
 			[
 				'id' => $proformId,
 				'issue_invoice' => true,
 			],
-			$this->invoiceUrl
 		);
 	}
 
@@ -71,7 +71,6 @@ class MFaktury
 	public function createInvoice(Invoice $invoice): object
 	{
 		$customerData = [
-			'api_token' => $this->apiToken,
 			'auto_generate' => 0,
 			'company' => $invoice->getCustomer()->getName(),
 			'street' => $invoice->getCustomer()->getAddress(),
@@ -83,7 +82,7 @@ class MFaktury
 			'comp_email' => $invoice->getCustomer()->getEmail(),
 		];
 
-		$customerID = (int) trim($this->request($customerData, $this->contactUrl), '"');
+		$customerID = (int) trim($this->request($this->contactUrl, $customerData), '"');
 
 		$items = [];
 		foreach ($invoice->getItems() as $_item) {
@@ -96,7 +95,6 @@ class MFaktury
 		}
 
 		$invoiceData = [
-			'api_token' => $this->apiToken,
 			'queue_id' => $this->queueId,
 			'type' => $invoice->getType(),
 			'contact' => $customerID,
@@ -111,7 +109,7 @@ class MFaktury
 			'items' => $items,
 		];
 
-		$response = $this->request($invoiceData, $this->invoiceUrl);
+		$response = $this->request($this->invoiceUrl, $invoiceData);
 
 		if (empty($response->link)) {
 			throw new InvoiceNotCreatedException("\nDECODED:\n" . print_r($response, true) . "\n");
@@ -123,21 +121,19 @@ class MFaktury
 	public function getInvoice(int $invoiceID)
 	{
 		$data = [
-			'api_token' => $this->apiToken,
 			'id' => $invoiceID
 		];
 
-		return $this->request($data, $this->invoiceUrl);
+		return $this->request($this->invoiceUrl, $data);
 	}
 
 	public function searchInvoice(string $string)
 	{
 		$data = [
-			'api_token' => $this->apiToken,
 			'search' => $string
 		];
 
-		$invoice = $this->request($data, $this->invoiceUrl);
+		$invoice = $this->request($this->invoiceUrl, $data);
 
 		if (empty((array) $invoice)) {
 			return null;

@@ -129,6 +129,22 @@ class MFaktury
 
 		return $this->request($data, $this->invoiceUrl);
 	}
+
+	public function searchInvoice(string $string)
+	{
+		$data = [
+			'api_token' => $this->apiToken,
+			'search' => $string
+		];
+
+		$invoice = $this->request($data, $this->invoiceUrl);
+
+		if (empty((array) $invoice)) {
+			return null;
+		}
+
+		return $invoice;
+	}
 }
 
 class InvoiceNotCreatedException extends \Exception {}

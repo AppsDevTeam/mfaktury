@@ -38,6 +38,7 @@ class Invoice
 	protected array $items;
 	protected ?string $link;
 	protected bool $issueInvoice = true;
+	protected bool $qrCodeEnabled;
 
 	public function __construct(
 		array $items,
@@ -48,6 +49,7 @@ class Invoice
 		string $lang = self::LANG_CS,
 		string $currency = self::CURRENCY_CZK,
 		bool $emailToCustomerEnabled = false,
+		bool $qrCodeEnabled = true,
 		string $note = null,
 		string $vs = null
 	)
@@ -60,6 +62,7 @@ class Invoice
 		$this->lang = $lang;
 		$this->currency = $currency;
 		$this->emailToCustomerEnabled = $emailToCustomerEnabled;
+		$this->qrCodeEnabled = $qrCodeEnabled;
 		$this->note = $note;
 		$this->vs = $vs;
 	}
@@ -269,6 +272,19 @@ class Invoice
 		$this->issueInvoice = $bool;
 		return $this;
 	}
+
+	public function isQrCodeEnabled(): bool
+	{
+		return $this->qrCodeEnabled;
+	}
+
+	public function setQrCodeEnabled(bool $qrCodeEnabled): Invoice
+	{
+		$this->qrCodeEnabled = $qrCodeEnabled;
+		return $this;
+	}
+
+
 
 }
 

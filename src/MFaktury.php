@@ -105,6 +105,7 @@ class MFaktury
 			'issue_invoice' => $invoice->getIssueInvoice(),
 			'vs' => $invoice->getVs(),
 			'currency' => $invoice->getCurrency(),
+			'qr_code' => $invoice->isQrCodeEnabled(),
 			'internal_note' => $invoice->getNote(),
 			'items' => $items,
 		];

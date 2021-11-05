@@ -49,9 +49,9 @@ class Invoice
 		string $lang = self::LANG_CS,
 		string $currency = self::CURRENCY_CZK,
 		bool $emailToCustomerEnabled = false,
-		bool $qrCodeEnabled = true,
 		string $note = null,
-		string $vs = null
+		string $vs = null,
+		bool $qrCodeEnabled = true
 	)
 	{
 		$this->items = $items;
@@ -62,9 +62,9 @@ class Invoice
 		$this->lang = $lang;
 		$this->currency = $currency;
 		$this->emailToCustomerEnabled = $emailToCustomerEnabled;
-		$this->qrCodeEnabled = $qrCodeEnabled;
 		$this->note = $note;
 		$this->vs = $vs;
+		$this->qrCodeEnabled = $qrCodeEnabled;
 	}
 
 	/**

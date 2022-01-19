@@ -142,6 +142,17 @@ class MFaktury
 
 		return $invoice;
 	}
+
+	public function deleteInvoice(int $invoiceID)
+	{
+		return $this->request(
+			$this->invoiceUrl,
+			[
+				'id' => $invoiceID,
+				'delete_invoice' => true,
+			]
+		);
+	}
 }
 
 class InvoiceNotCreatedException extends \Exception {}

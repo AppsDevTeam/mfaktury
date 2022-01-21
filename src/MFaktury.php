@@ -153,6 +153,17 @@ class MFaktury
 			]
 		);
 	}
+
+	public function updateInvoiceIsPaid(int $invoiceID)
+	{
+		return $this->request(
+			$this->invoiceUrl,
+			[
+				'id' => $invoiceID,
+				'is_paid' => true,
+			]
+		);
+	}
 }
 
 class InvoiceNotCreatedException extends \Exception {}

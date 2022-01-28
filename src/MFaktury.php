@@ -107,6 +107,8 @@ class MFaktury
 			'currency' => $invoice->getCurrency(),
 			'qr_code' => $invoice->isQrCodeEnabled(),
 			'internal_note' => $invoice->getNote(),
+			'year' => $invoice->getYear(),
+			'number' => $invoice->getNumber(),
 			'items' => $items,
 		];
 

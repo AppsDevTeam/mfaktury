@@ -5,7 +5,6 @@ namespace ADT\MFaktury\Entity;
 
 class Invoice
 {
-
 	const PAYMENT_METHOD_CASH = 'hotovost';
 	const PAYMENT_METHOD_TRANSFER = 'převod';
 	const PAYMENT_METHOD_PAYMENT_CARD = 'platba kartou';
@@ -39,6 +38,8 @@ class Invoice
 	protected ?string $link;
 	protected bool $issueInvoice = true;
 	protected bool $qrCodeEnabled;
+	protected ?string $year;
+	protected ?int $number;
 
 	public function __construct(
 		array $items,
@@ -51,7 +52,9 @@ class Invoice
 		bool $emailToCustomerEnabled = false,
 		string $note = null,
 		string $vs = null,
-		bool $qrCodeEnabled = true
+		bool $qrCodeEnabled = true,
+		string $year = null,
+		int $number = null
 	)
 	{
 		$this->items = $items;
@@ -65,6 +68,8 @@ class Invoice
 		$this->note = $note;
 		$this->vs = $vs;
 		$this->qrCodeEnabled = $qrCodeEnabled;
+		$this->year = $year;
+		$this->number = $number;
 	}
 
 	/**
@@ -284,7 +289,27 @@ class Invoice
 		return $this;
 	}
 
+	public function getYear(): ?string
+	{
+		return $this->year;
+	}
 
+	public function setYear(?string $year): Invoice
+	{
+		$this->year = $year;
+		return $this;
+	}
+
+	public function getNumber(): ?int
+	{
+		return $this->number;
+	}
+
+	public function setNumber(?int $number): Invoice
+	{
+		$this->number = $number;
+		return $this;
+	}
 
 }
 

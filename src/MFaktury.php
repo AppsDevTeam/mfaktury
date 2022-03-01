@@ -4,15 +4,21 @@ namespace ADT\MFaktury;
 
 
 use ADT\MFaktury\Entity\Invoice;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
+use Nette\Application\BadRequestException;
+use Nette\Http\IResponse;
 
 class MFaktury
 {
-
 	protected string $apiToken;
 	protected ?int $queueId;
-	protected string $contactUrl = 'https://ac.mfaktury.cz/api/contacts';
-	protected string $contactListUrl = 'https://ac.mfaktury.cz/api/contactslist';
-	protected string $invoiceUrl = 'https://ac.mfaktury.cz/api/invoices';
+	protected string $baseUri = 'https://ac.mfaktury.cz/api/';
+	protected string $contactUrl = 'contacts';
+	protected string $contactListUrl = 'contactslist';
+	protected string $invoiceUrl = 'invoices';
 	protected ?int $businessPremise; // číslo provozovny EET
 	protected ?string $cashRegister; // označení pokladny EET
 
@@ -31,15 +37,15 @@ class MFaktury
 
 	protected function request(string $url, array $data = [])
 	{
-		$options = [
-			'http' => [
-				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-				'method'  => 'POST',
-				'content' => http_build_query(array_merge($data, ['api_token' => $this->apiToken])),
-			],
+		$client = new Client([
+			'base_uri' => $this->baseUri,
+		]);
+
+		$data = [
+			'form_params' => array_merge($data, ['api_token' => $this->apiToken]),
 		];
 
-		return json_decode(file_get_contents($url, false, stream_context_create($options)));
+		return json_decode((string)$client->post($url, $data)->getBody());
 	}
 
 	public function listContact()

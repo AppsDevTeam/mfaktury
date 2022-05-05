@@ -11,7 +11,6 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
-use Nette\Utils\Json;
 
 class MFaktury
 {

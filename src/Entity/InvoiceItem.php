@@ -5,6 +5,7 @@ namespace ADT\MFaktury\Entity;
 
 class InvoiceItem
 {
+	const DEFAULT_VAT_RATES = [15, 21];
 
 	protected string $description;
 	protected float $price;

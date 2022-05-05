@@ -4,12 +4,14 @@ namespace ADT\MFaktury;
 
 
 use ADT\MFaktury\Entity\Invoice;
+use ADT\MFaktury\Entity\InvoiceItem;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
+use Nette\Utils\Json;
 
 class MFaktury
 {
@@ -92,12 +94,19 @@ class MFaktury
 
 		$items = [];
 		foreach ($invoice->getItems() as $_item) {
-			$items[] = [
+			$item = [
 				'description' => $_item->getDescription(),
 				'price' => $_item->getPrice(),
-				'tax' => $_item->getVatRate(),
 				'quantity' => $_item->getQuantity(),
 			];
+
+			if (in_array($_item->getVatRate(), InvoiceItem::DEFAULT_VAT_RATES, true)) {
+				$item['tax'] = $_item->getVatRate();
+			} else {
+				$item['tax_custom'] = $_item->getVatRate();
+			}
+
+			$items[] = $item;
 		}
 
 		$invoiceData = [

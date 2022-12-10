@@ -109,7 +109,7 @@ class MFaktury
 		}
 
 		$invoiceData = [
-			'queue_id' => $this->queueId,
+			'queue_id' => $invoice-> getQueueId() ?: $this->queueId,
 			'type' => $invoice->getType(),
 			'contact' => $customerID,
 			'sendEmail' => $invoice->isEmailToCustomerEnabled(),

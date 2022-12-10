@@ -55,8 +55,7 @@ class Invoice
 		string $vs = null,
 		bool $qrCodeEnabled = true,
 		string $year = null,
-		int $number = null,
-		int $queueId = null
+		int $number = null
 	)
 	{
 		$this->items = $items;

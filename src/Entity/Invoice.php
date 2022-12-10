@@ -40,6 +40,7 @@ class Invoice
 	protected bool $qrCodeEnabled;
 	protected ?string $year;
 	protected ?int $number;
+	protected ?int $queueId;
 
 	public function __construct(
 		array $items,
@@ -54,7 +55,8 @@ class Invoice
 		string $vs = null,
 		bool $qrCodeEnabled = true,
 		string $year = null,
-		int $number = null
+		int $number = null,
+		int $queueId = null
 	)
 	{
 		$this->items = $items;
@@ -70,6 +72,17 @@ class Invoice
 		$this->qrCodeEnabled = $qrCodeEnabled;
 		$this->year = $year;
 		$this->number = $number;
+	}
+	
+	public function getQueueId()
+	{
+		return $this->queueId;
+	}
+	
+	public function setQueueId(int $queueId): Invoice
+	{
+		$this->queueId = $queueId;
+		return $this;
 	}
 
 	/**

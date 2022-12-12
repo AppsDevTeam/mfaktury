@@ -40,7 +40,7 @@ class Invoice
 	protected bool $qrCodeEnabled;
 	protected ?string $year;
 	protected ?int $number;
-	protected ?int $queueId;
+	protected ?int $queueId = null;
 
 	public function __construct(
 		array $items,

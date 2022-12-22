@@ -11,19 +11,22 @@ class InvoiceItem
 	protected float $price;
 	protected int $quantity;
 	protected ?int $vatRate;
+	protected ?string $unit;
 
 
 	public function __construct(
 		string $description,
 		float $price,
 		int $quantity = 1,
-		?int $vatRate = null
+		?int $vatRate = null,
+		?string $unit = null
 	)
 	{
 		$this->description = $description;
 		$this->price = $price;
 		$this->quantity = $quantity;
 		$this->vatRate = $vatRate;
+		$this->unit = $unit;
 	}
 
 	/**
@@ -95,6 +98,19 @@ class InvoiceItem
 	public function setQuantity(int $quantity): InvoiceItem
 	{
 		$this->quantity = $quantity;
+		return $this;
+	}
+
+
+ 	public function getUnit(): ?string
+	{
+		return $this->unit;
+	}
+
+
+	public function setUnit(?string $unit): InvoiceItem
+	{
+		$this->unit = $unit;
 		return $this;
 	}
 }

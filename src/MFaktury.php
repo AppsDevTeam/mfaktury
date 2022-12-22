@@ -105,6 +105,10 @@ class MFaktury
 				$item['tax_custom'] = $_item->getVatRate();
 			}
 
+			if ($_item->getUnit()) {
+				$item['mj'] = $_item->getUnit();
+			}
+
 			$items[] = $item;
 		}
 

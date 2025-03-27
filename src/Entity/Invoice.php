@@ -51,11 +51,11 @@ class Invoice
 		string $lang = self::LANG_CS,
 		string $currency = self::CURRENCY_CZK,
 		bool $emailToCustomerEnabled = false,
-		string $note = null,
-		string $vs = null,
+		?string $note = null,
+		?string $vs = null,
 		bool $qrCodeEnabled = true,
-		string $year = null,
-		int $number = null
+		?string $year = null,
+		?int $number = null
 	)
 	{
 		$this->items = $items;

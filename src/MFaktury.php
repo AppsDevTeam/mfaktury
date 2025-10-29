@@ -5,6 +5,7 @@ namespace ADT\MFaktury;
 
 use ADT\MFaktury\Entity\Invoice;
 use ADT\MFaktury\Entity\InvoiceItem;
+use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -130,6 +131,12 @@ class MFaktury
 			'items' => $items,
 		];
 
+		// Vlastní datum pro splatnost
+		if (!$this->checkIsValidDueInDays($invoice->getDueInDays())) {
+			$invoiceData['interval_exp'] = 'c';
+			$invoiceData['interval_exp_custom'] = (new DateTime())->modify('+' . $invoice->getDueInDays() . ' days')->format('d.m.Y');
+		}
+
 		$response = $this->request($this->invoiceUrl, $invoiceData);
 
 		if (empty($response->link)) {
@@ -183,6 +190,19 @@ class MFaktury
 				'is_paid' => true,
 			]
 		);
+	}
+
+	private function checkIsValidDueInDays(int $dueInDays): bool
+	{
+		return in_array($dueInDays, [
+			-1, // uhrazeno
+			0, // dnes
+			1, // zítra
+			7, // týden
+			14, // 14 dní
+			21, // 21 dní
+			31, // měsíc
+		]);
 	}
 }
 

@@ -130,6 +130,12 @@ class MFaktury
 			'items' => $items,
 		];
 
+		// Vlastní datum pro splatnost
+		if ($invoice->getDueDate() !== null) {
+			$invoiceData['interval_exp'] = 'c';
+			$invoiceData['interval_exp_custom'] = $invoice->getDueDate()->format('d.m.Y');
+		}
+
 		$response = $this->request($this->invoiceUrl, $invoiceData);
 
 		if (empty($response->link)) {

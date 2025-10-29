@@ -29,7 +29,6 @@ class Invoice
 	protected int $type;
 	protected bool $emailToCustomerEnabled;
 	protected int $dueInDays;
-	protected ?\DateTimeImmutable $dueDate;
 	protected string $currency;
 	protected string $lang;
 	protected ?string $note;
@@ -56,8 +55,7 @@ class Invoice
 		?string $vs = null,
 		bool $qrCodeEnabled = true,
 		?string $year = null,
-		?int $number = null,
-		?\DateTimeImmutable $dueDate = null
+		?int $number = null
 	)
 	{
 		$this->items = $items;
@@ -73,7 +71,6 @@ class Invoice
 		$this->qrCodeEnabled = $qrCodeEnabled;
 		$this->year = $year;
 		$this->number = $number;
-		$this->dueDate = $dueDate;
 	}
 	
 	public function getQueueId()
@@ -189,24 +186,6 @@ class Invoice
 	public function setDueInDays(int $dueInDays): Invoice
 	{
 		$this->dueInDays = $dueInDays;
-		return $this;
-	}
-
-	/**
-	 * @return \DateTimeImmutable|null
-	 */
-	public function getDueDate(): ?\DateTimeImmutable
-	{
-		return $this->dueDate;
-	}
-
-	/**
-	 * @param \DateTimeImmutable|null $dueDate
-	 * @return $this
-	 */
-	public function setDueDate(?\DateTimeImmutable $dueDate): self
-	{
-		$this->dueDate = $dueDate;
 		return $this;
 	}
 

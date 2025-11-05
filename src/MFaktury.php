@@ -181,13 +181,14 @@ class MFaktury
 		);
 	}
 
-	public function updateInvoiceIsPaid(int $invoiceID)
+	public function updateInvoiceIsPaid(int $invoiceID, ?bool $sendEmail = null)
 	{
 		return $this->request(
 			$this->invoiceUrl,
 			[
 				'id' => $invoiceID,
 				'is_paid' => true,
+				'send_email' => $sendEmail
 			]
 		);
 	}

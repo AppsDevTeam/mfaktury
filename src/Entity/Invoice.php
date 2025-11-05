@@ -28,6 +28,7 @@ class Invoice
 	protected string $paymentMethod;
 	protected int $type;
 	protected bool $emailToCustomerEnabled;
+	protected bool $proformaToInvoiceEmailToCustomerEnabled;
 	protected int $dueInDays;
 	protected string $currency;
 	protected string $lang;
@@ -55,7 +56,8 @@ class Invoice
 		?string $vs = null,
 		bool $qrCodeEnabled = true,
 		?string $year = null,
-		?int $number = null
+		?int $number = null,
+		bool $proformaToInvoiceEmailToCustomerEnabled = false
 	)
 	{
 		$this->items = $items;
@@ -71,6 +73,7 @@ class Invoice
 		$this->qrCodeEnabled = $qrCodeEnabled;
 		$this->year = $year;
 		$this->number = $number;
+		$this->proformaToInvoiceEmailToCustomerEnabled = $proformaToInvoiceEmailToCustomerEnabled;
 	}
 	
 	public function getQueueId()
@@ -168,6 +171,24 @@ class Invoice
 	public function setEmailToCustomerEnabled(bool $emailToCustomerEnabled): Invoice
 	{
 		$this->emailToCustomerEnabled = $emailToCustomerEnabled;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isProformaToInvoiceEmailToCustomerEnabled(): bool
+	{
+		return $this->proformaToInvoiceEmailToCustomerEnabled;
+	}
+
+	/**
+	 * @param bool $proformaToInvoiceEmailToCustomerEnabled
+	 * @return $this
+	 */
+	public function setProformaToInvoiceEmailToCustomerEnabled(bool $proformaToInvoiceEmailToCustomerEnabled): self
+	{
+		$this->proformaToInvoiceEmailToCustomerEnabled = $proformaToInvoiceEmailToCustomerEnabled;
 		return $this;
 	}
 

@@ -118,6 +118,7 @@ class MFaktury
 			'type' => $invoice->getType(),
 			'contact' => $customerID,
 			'sendEmail' => $invoice->isEmailToCustomerEnabled(),
+			'send_proforma_to_invoice_email' => $invoice->isProformaToInvoiceEmailToCustomerEnabled(),
 			'lang' => $invoice->getLang(),
 			'payment_method' => $invoice->getPaymentMethod(),
 			'interval_exp' => $invoice->getDueInDays(),

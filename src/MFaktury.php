@@ -132,6 +132,10 @@ class MFaktury
 			'items' => $items,
 		];
 
+		if ($invoice->getCorrectiveReason() !== null) {
+			$invoiceData['corrective_reason'] = $invoice->getCorrectiveReason();
+		}
+
 		// Vlastní datum pro splatnost
 		if (!$this->checkIsValidDueInDays($invoice->getDueInDays())) {
 			$invoiceData['interval_exp'] = 'c';

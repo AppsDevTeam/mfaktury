@@ -12,6 +12,7 @@ class InvoiceItem
 	protected int $quantity;
 	protected ?int $vatRate;
 	protected ?string $unit;
+	protected ?string $code = null;
 
 
 	public function __construct(
@@ -111,6 +112,18 @@ class InvoiceItem
 	public function setUnit(?string $unit): InvoiceItem
 	{
 		$this->unit = $unit;
+		return $this;
+	}
+
+	public function getCode(): ?string
+	{
+		return $this->code;
+	}
+
+	/** Kód položky (items[n][code], max. 63 znaků) */
+	public function setCode(?string $code): InvoiceItem
+	{
+		$this->code = $code;
 		return $this;
 	}
 }

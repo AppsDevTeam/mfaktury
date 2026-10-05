@@ -46,6 +46,9 @@ class Invoice
 	protected ?int $number;
 	protected ?int $queueId = null;
 	protected ?string $correctiveReason;
+	protected ?int $originalInvoiceId = null;
+	protected ?\DateTimeInterface $issuedAt = null;
+	protected ?\DateTimeInterface $taxableAt = null;
 
 	public function __construct(
 		array $items,
@@ -361,6 +364,45 @@ class Invoice
 	public function setCorrectiveReason(?string $correctiveReason): Invoice
 	{
 		$this->correctiveReason = $correctiveReason;
+		return $this;
+	}
+
+	public function getOriginalInvoiceId(): ?int
+	{
+		return $this->originalInvoiceId;
+	}
+
+	/**
+	 * ID opravované faktury v mFakturách - povinné u TYPE_CORRECTIVE, musí to být
+	 * faktura (TYPE_INVOICE). Položky opravného dokladu mají záporné množství a kladnou cenu.
+	 */
+	public function setOriginalInvoiceId(?int $originalInvoiceId): Invoice
+	{
+		$this->originalInvoiceId = $originalInvoiceId;
+		return $this;
+	}
+
+	public function getIssuedAt(): ?\DateTimeInterface
+	{
+		return $this->issuedAt;
+	}
+
+	/** Datum vystavení (date_iss), bez něj mFaktury dají dnešek */
+	public function setIssuedAt(?\DateTimeInterface $issuedAt): Invoice
+	{
+		$this->issuedAt = $issuedAt;
+		return $this;
+	}
+
+	public function getTaxableAt(): ?\DateTimeInterface
+	{
+		return $this->taxableAt;
+	}
+
+	/** Datum zdanitelného plnění (date_tax), bez něj mFaktury dají dnešek */
+	public function setTaxableAt(?\DateTimeInterface $taxableAt): Invoice
+	{
+		$this->taxableAt = $taxableAt;
 		return $this;
 	}
 

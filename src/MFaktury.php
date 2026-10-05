@@ -94,20 +94,21 @@ class MFaktury
 
 		$items = [];
 		foreach ($invoice->getItems() as $_item) {
+			// API bere price bez DPH a sazbu v % v tax (libovolná sazba, výchozí 0) -
+			// tax_custom dokumentace API nezná
 			$item = [
 				'description' => $_item->getDescription(),
 				'price' => $_item->getPrice(),
 				'quantity' => $_item->getQuantity(),
+				'tax' => $_item->getVatRate() ?? 0,
 			];
-
-			if (in_array($_item->getVatRate(), InvoiceItem::DEFAULT_VAT_RATES, true)) {
-				$item['tax'] = $_item->getVatRate();
-			} else {
-				$item['tax_custom'] = $_item->getVatRate();
-			}
 
 			if ($_item->getUnit()) {
 				$item['mj'] = $_item->getUnit();
+			}
+
+			if ($_item->getCode()) {
+				$item['code'] = $_item->getCode();
 			}
 
 			$items[] = $item;
@@ -117,6 +118,8 @@ class MFaktury
 			'queue_id' => $invoice-> getQueueId() ?: $this->queueId,
 			'type' => $invoice->getType(),
 			'contact' => $customerID,
+			'send_email' => $invoice->isEmailToCustomerEnabled(),
+			// starší název parametru, ponechaný kvůli zpětné kompatibilitě
 			'sendEmail' => $invoice->isEmailToCustomerEnabled(),
 			'send_proforma_to_invoice_email' => $invoice->isProformaToInvoiceEmailToCustomerEnabled(),
 			'lang' => $invoice->getLang(),
@@ -134,6 +137,18 @@ class MFaktury
 
 		if ($invoice->getCorrectiveReason() !== null) {
 			$invoiceData['corrective_reason'] = $invoice->getCorrectiveReason();
+		}
+
+		if ($invoice->getOriginalInvoiceId() !== null) {
+			$invoiceData['original_invoice_id'] = $invoice->getOriginalInvoiceId();
+		}
+
+		if ($invoice->getIssuedAt() !== null) {
+			$invoiceData['date_iss'] = $invoice->getIssuedAt()->format('j.n.Y');
+		}
+
+		if ($invoice->getTaxableAt() !== null) {
+			$invoiceData['date_tax'] = $invoice->getTaxableAt()->format('j.n.Y');
 		}
 
 		// Vlastní datum pro splatnost

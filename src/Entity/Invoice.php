@@ -13,6 +13,9 @@ class Invoice
 
 	const TYPE_INVOICE = 0;
 	const TYPE_PROFORMA = 1;
+	const TYPE_ADVANCE = 2; // zálohová faktura
+	const TYPE_SIMPLIFIED = 3; // zjednodušený daňový doklad (účtenka)
+	const TYPE_CORRECTIVE = 4; // opravný daňový doklad (dobropis), vyžaduje correctiveReason
 
 	const LANG_CS = 'cs';
 	const LANG_SK = 'sk';
@@ -42,6 +45,10 @@ class Invoice
 	protected ?string $year;
 	protected ?int $number;
 	protected ?int $queueId = null;
+	protected ?string $correctiveReason;
+	protected ?int $originalInvoiceId = null;
+	protected ?\DateTimeInterface $issuedAt = null;
+	protected ?\DateTimeInterface $taxableAt = null;
 
 	public function __construct(
 		array $items,
@@ -57,7 +64,8 @@ class Invoice
 		bool $qrCodeEnabled = true,
 		?string $year = null,
 		?int $number = null,
-		bool $proformaToInvoiceEmailToCustomerEnabled = false
+		bool $proformaToInvoiceEmailToCustomerEnabled = false,
+		?string $correctiveReason = null
 	)
 	{
 		$this->items = $items;
@@ -74,6 +82,7 @@ class Invoice
 		$this->year = $year;
 		$this->number = $number;
 		$this->proformaToInvoiceEmailToCustomerEnabled = $proformaToInvoiceEmailToCustomerEnabled;
+		$this->correctiveReason = $correctiveReason;
 	}
 	
 	public function getQueueId()
@@ -341,6 +350,59 @@ class Invoice
 	public function setNumber(?int $number): Invoice
 	{
 		$this->number = $number;
+		return $this;
+	}
+
+	public function getCorrectiveReason(): ?string
+	{
+		return $this->correctiveReason;
+	}
+
+	/**
+	 * Důvod vystavení opravného daňového dokladu (TYPE_CORRECTIVE)
+	 */
+	public function setCorrectiveReason(?string $correctiveReason): Invoice
+	{
+		$this->correctiveReason = $correctiveReason;
+		return $this;
+	}
+
+	public function getOriginalInvoiceId(): ?int
+	{
+		return $this->originalInvoiceId;
+	}
+
+	/**
+	 * ID opravované faktury v mFakturách - povinné u TYPE_CORRECTIVE, musí to být
+	 * faktura (TYPE_INVOICE). Položky opravného dokladu mají záporné množství a kladnou cenu.
+	 */
+	public function setOriginalInvoiceId(?int $originalInvoiceId): Invoice
+	{
+		$this->originalInvoiceId = $originalInvoiceId;
+		return $this;
+	}
+
+	public function getIssuedAt(): ?\DateTimeInterface
+	{
+		return $this->issuedAt;
+	}
+
+	/** Datum vystavení (date_iss), bez něj mFaktury dají dnešek */
+	public function setIssuedAt(?\DateTimeInterface $issuedAt): Invoice
+	{
+		$this->issuedAt = $issuedAt;
+		return $this;
+	}
+
+	public function getTaxableAt(): ?\DateTimeInterface
+	{
+		return $this->taxableAt;
+	}
+
+	/** Datum zdanitelného plnění (date_tax), bez něj mFaktury dají dnešek */
+	public function setTaxableAt(?\DateTimeInterface $taxableAt): Invoice
+	{
+		$this->taxableAt = $taxableAt;
 		return $this;
 	}
 

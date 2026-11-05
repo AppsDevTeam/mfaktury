@@ -13,6 +13,7 @@ class InvoiceItem
 	protected ?int $vatRate;
 	protected ?string $unit;
 	protected ?string $code = null;
+	protected ?bool $priceIncludesVat = null;
 
 
 	public function __construct(
@@ -124,6 +125,18 @@ class InvoiceItem
 	public function setCode(?string $code): InvoiceItem
 	{
 		$this->code = $code;
+		return $this;
+	}
+
+	public function getPriceIncludesVat(): ?bool
+	{
+		return $this->priceIncludesVat;
+	}
+
+	/** true = cena s DPH, false = bez DPH, null = podle nastavení účtu v mFakturách */
+	public function setPriceIncludesVat(?bool $priceIncludesVat): InvoiceItem
+	{
+		$this->priceIncludesVat = $priceIncludesVat;
 		return $this;
 	}
 }

@@ -94,11 +94,16 @@ class MFaktury
 
 		$items = [];
 		foreach ($invoice->getItems() as $_item) {
-			// API bere price bez DPH a sazbu v % v tax (libovolná sazba, výchozí 0) -
-			// tax_custom dokumentace API nezná
+			if ($_item->getPriceIncludesVat() === null) {
+				$priceParam = 'price';
+			} else {
+				$priceParam = $_item->getPriceIncludesVat() ? 'price_with_vat' : 'price_without_vat';
+			}
+
+			// sazba v % jde v tax (libovolná sazba, výchozí 0), tax_custom dokumentace API nezná
 			$item = [
 				'description' => $_item->getDescription(),
-				'price' => $_item->getPrice(),
+				$priceParam => $_item->getPrice(),
 				'quantity' => $_item->getQuantity(),
 				'tax' => $_item->getVatRate() ?? 0,
 			];

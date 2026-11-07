@@ -8,6 +8,6 @@
     }
   },
   "require": {
-    "guzzlehttp/guzzle": "^7.0"
+    "guzzlehttp/guzzle": "^7.0 || ^8.0.1"
   }
 }
